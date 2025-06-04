@@ -1,12 +1,15 @@
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { login } from "./auth.api";
+import { setToken } from "../../store/auth.slice";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,7 +17,7 @@ export default function Login() {
 
     try {
       const { accessToken } = await login({ username, password });
-      localStorage.setItem("token", accessToken);
+      dispatch(setToken(accessToken));
       navigate("/dashboard");
     } catch (error: unknown) {
       setError(

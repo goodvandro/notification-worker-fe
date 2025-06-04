@@ -1,10 +1,14 @@
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store";
+import { removeToken } from "../store/auth.slice";
+
 export const useAuth = () => {
-  const token = localStorage.getItem("token");
+  const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useDispatch();
+
   return {
     isAuthenticated: !!token,
-    logout: () => {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-    },
+    logout: () => dispatch(removeToken()),
+    token,
   };
 };

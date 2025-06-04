@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Register from "../features/auth/register";
+import PrivateRoute from "../components/PrivateRoute";
 import Login from "../features/auth/login";
+import Register from "../features/auth/register";
+import AuthLayout from "../layouts/AuthLayout";
 import Dashboard from "../pages/Dashboard";
 import MessagePage from "../pages/MessagePage";
 import NewMessagePage from "../pages/NewMessagePage";
-import PrivateRoute from "../components/PrivateRoute";
-import AuthLayout from "../layouts/AuthLayout";
 
 export function AppRouter() {
   return (
