@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { login } from "./auth.api";
-import { setToken } from "../../store/auth.slice";
+import { setToken, setRefreshToken } from "../../store/auth.slice";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -16,8 +16,11 @@ export default function Login() {
     setError("");
 
     try {
-      const { accessToken } = await login({ username, password });
+      const { accessToken, refreshToken } = await login({ username, password });
+
       dispatch(setToken(accessToken));
+      dispatch(setRefreshToken(refreshToken));
+      
       navigate("/dashboard");
     } catch (error: unknown) {
       setError(
