@@ -4,6 +4,8 @@ import Login from "../features/auth/login";
 import Dashboard from "../pages/Dashboard";
 import MessagePage from "../pages/MessagePage";
 import NewMessagePage from "../pages/NewMessagePage";
+import PrivateRoute from "../components/PrivateRoute";
+import AuthLayout from "../layouts/AuthLayout";
 
 export function AppRouter() {
   return (
@@ -11,9 +13,38 @@ export function AppRouter() {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/messages/new" element={<NewMessagePage />} />
-        <Route path="/messages/:id" element={<MessagePage />} />
+
+        {/* Rotas protegidas */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <AuthLayout>
+                <Dashboard />
+              </AuthLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/messages/:id"
+          element={
+            <PrivateRoute>
+              <AuthLayout>
+                <MessagePage />
+              </AuthLayout>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/messages/new"
+          element={
+            <PrivateRoute>
+              <AuthLayout>
+                <NewMessagePage />
+              </AuthLayout>
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

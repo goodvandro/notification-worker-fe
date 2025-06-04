@@ -15,7 +15,7 @@ export default function MessageList() {
     const fetch = async () => {
       setLoading(true);
       try {
-        const result = await getMessages(page, 10, status);
+        const result = await getMessages(page, 6, status);
         setData(result);
       } catch (error) {
         setError(
