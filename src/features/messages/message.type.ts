@@ -15,3 +15,8 @@ export interface PaginatedResponse<T> {
     totalPages: number;
   };
 }
+
+export interface CreateMessageDTO {
+  title: string;
+  content: string;
+}

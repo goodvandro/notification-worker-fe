@@ -1,5 +1,5 @@
 import http from "../../api/http";
-import type { Message, PaginatedResponse } from "./message.type";
+import type { CreateMessageDTO, Message, PaginatedResponse } from "./message.type";
 
 export const getMessages = async (
   page = 1,
@@ -21,6 +21,13 @@ export const getMessages = async (
 
 export const getMessageById = async (id: string): Promise<Message> => {
   const response = await http.get(`/messages/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+  return response.data;
+};
+
+export const createMessage = async (data: CreateMessageDTO): Promise<Message> => {
+  const response = await http.post(`/messages`, data, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
   return response.data;
