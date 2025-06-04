@@ -5,3 +5,13 @@ export interface Message {
   status: "PENDING" | "SENDING" | "SENT";
   createdAt: string;
 }
+
+export interface PaginatedResponse<T> {
+  items: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
