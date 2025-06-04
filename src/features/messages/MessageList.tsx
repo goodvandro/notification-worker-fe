@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Message, PaginatedResponse } from "./message.type";
 import { getMessages } from "./message.api";
+import { useNavigate } from "react-router-dom";
 
 export default function MessageList() {
   const [data, setData] = useState<PaginatedResponse<Message> | null>(null);
@@ -8,6 +9,7 @@ export default function MessageList() {
   const [status, setStatus] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetch = async () => {
@@ -71,7 +73,11 @@ export default function MessageList() {
 
       <ul className="space-y-3">
         {data.items.map((msg) => (
-          <li key={msg.id} className="border p-4 rounded bg-white shadow">
+          <li
+            key={msg.id}
+            className="border p-4 rounded bg-white shadow cursor-pointer hover:bg-gray-50"
+            onClick={() => navigate(`/messages/${msg.id}`)}
+          >
             <h3 className="font-semibold text-lg">{msg.title}</h3>
             <p className="text-sm text-gray-700">{msg.content}</p>
             <p className="text-xs text-gray-500 mt-1">

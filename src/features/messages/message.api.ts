@@ -18,3 +18,10 @@ export const getMessages = async (
   });
   return response.data;
 };
+
+export const getMessageById = async (id: string): Promise<Message> => {
+  const response = await http.get(`/messages/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+  return response.data;
+};
