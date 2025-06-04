@@ -6,10 +6,12 @@ export default function MessageList() {
   const [data, setData] = useState<PaginatedResponse<Message> | null>(null);
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       try {
         const result = await getMessages(page, 10, status);
         setData(result);
@@ -18,13 +20,28 @@ export default function MessageList() {
           (error as { response: { data: { message: string } } }).response?.data
             ?.message || "Erro ao carregar mensagens"
         );
+      } finally {
+        setLoading(false);
       }
     };
     fetch();
   }, [page, status]);
 
   if (error) return <p className="text-red-600 mb-2">{error}</p>;
-  if (!data) return <p>Carregando...</p>;
+
+  if (loading) {
+    return (
+      <p className="text-gray-600 text-center py-10">Carregando mensagens...</p>
+    );
+  }
+
+  if (!data || data.items.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-gray-600">Nenhuma mensagem encontrada.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
