@@ -27,7 +27,14 @@ export default function MessageList() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Mensagens</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">Mensagens</h2>
+        <span className="text-gray-600 text-sm">
+          Total: <strong>{data.meta.total}</strong> mensagem
+          {data.meta.total !== 1 ? "s" : ""}
+        </span>
+      </div>
+
       <ul className="space-y-3">
         {data.items.map((msg) => (
           <li key={msg.id} className="border p-4 rounded bg-white shadow">
