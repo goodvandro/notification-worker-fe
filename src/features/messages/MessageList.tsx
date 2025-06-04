@@ -5,12 +5,13 @@ import { getMessages } from "./message.api";
 export default function MessageList() {
   const [data, setData] = useState<PaginatedResponse<Message> | null>(null);
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState<string | undefined>(undefined);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const result = await getMessages(page, 10);
+        const result = await getMessages(page, 10, status);
         setData(result);
       } catch (error) {
         setError(
@@ -20,7 +21,7 @@ export default function MessageList() {
       }
     };
     fetch();
-  }, [page]);
+  }, [page, status]);
 
   if (error) return <p className="text-red-600 mb-2">{error}</p>;
   if (!data) return <p>Carregando...</p>;
@@ -29,6 +30,22 @@ export default function MessageList() {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Mensagens</h2>
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-600">Status:</label>
+          <select
+            value={status || ""}
+            onChange={(e) => {
+              setPage(1); // reset para página 1 ao trocar filtro
+              setStatus(e.target.value || undefined);
+            }}
+            className="border rounded px-2 py-1 text-sm"
+          >
+            <option value="">Todos</option>
+            <option value="PENDING">Pendentes</option>
+            <option value="SENDING">Enviando</option>
+            <option value="SENT">Enviadas</option>
+          </select>
+        </div>
         <span className="text-gray-600 text-sm">
           Total: <strong>{data.meta.total}</strong> mensagem
           {data.meta.total !== 1 ? "s" : ""}
