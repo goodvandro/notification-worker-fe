@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { register } from "./auth.api";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -38,7 +38,7 @@ export default function Register() {
         className="bg-white p-8 rounded shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-4">Registo de Utilizador</h2>
-        
+
         <input
           type="text"
           placeholder="Username"
@@ -61,6 +61,12 @@ export default function Register() {
         >
           Registrar
         </button>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Já tem uma conta?{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Faça login
+          </Link>
+        </p>
       </form>
     </div>
   );

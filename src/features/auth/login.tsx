@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "./auth.api";
 import { setToken, setRefreshToken } from "../../store/auth.slice";
 import toast from "react-hot-toast";
@@ -62,6 +62,12 @@ export default function Login() {
         >
           Entrar
         </button>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Ainda não tem uma conta?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Registre-se aqui
+          </Link>
+        </p>
       </form>
     </div>
   );
