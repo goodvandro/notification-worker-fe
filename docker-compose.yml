@@ -21,4 +21,4 @@ services:
     environment:
       - NODE_ENV=development
       - VITE_API_URL=${VITE_API_URL}
-      - VITE_SOCKET_URL=${VITE_SOCKET_URL}
+      - VITE_SOCKET_API_URL=${VITE_SOCKET_API_URL}
