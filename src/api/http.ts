@@ -5,7 +5,8 @@ import { removeToken, setToken } from "../store/auth.slice";
 import { refreshToken } from "./refreshToken";
 
 const http = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
