@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  notification-worker-nt:
+    name: notification-worker-nt
+    driver: bridge
+
+services:
+  fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notification-worker-fe
+    env_file: ./.env
+    network_mode: notification-worker-nt
+    volumes:
+      - .:/app
+      - /app/node_modules # evita conflito com node_modules do host
+    ports:
+      - "${VITE_PORT}:5173"
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_SOCKET_API_URL=${VITE_SOCKET_API_URL}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Message } from "./message.type";
 import { getMessageById } from "./message.api";
+import { initSocket } from "../../services/socket";
 
 export default function MessageDetail() {
   const { id } = useParams();
@@ -26,6 +27,15 @@ export default function MessageDetail() {
     };
     fetch();
   }, [id]);
+
+  useEffect(() => {
+    const socket = initSocket();
+    socket.on("messageStatusUpdated", (updated: Message) => {
+      if (updated.id === id) {
+        setMessage((prev) => prev ? { ...prev, status: updated.status } : { ...updated });
+      }
+    });
+  });
 
   if (loading) return <p className="text-center py-10">Carregando...</p>;
   if (error) return <p className="text-red-600 text-center">{error}</p>;

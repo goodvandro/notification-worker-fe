@@ -1,24 +1,29 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createMessage } from "./message.api";
+import toast from "react-hot-toast";
 
 export default function MessageForm() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    const toastId = toast.loading("Criando mensagem...");
     try {
       await createMessage({ title, content });
+      toast.success("Mensagem registada com sucesso!", { id: toastId });
       navigate("/dashboard");
     } catch (error) {
-      setError(
+      const msg =
         (error as { response: { data: { message: string } } }).response?.data
-          ?.message || "Erro ao criar mensagens"
-      );
+          ?.message || "Erro ao registar a mensagem";
+      toast.error(msg, { id: toastId });
+      // setError(
+      //   (error as { response: { data: { message: string } } }).response?.data
+      //     ?.message || "Erro ao criar mensagens"
+      // );
     }
   };
 
@@ -43,7 +48,6 @@ export default function MessageForm() {
           rows={4}
           required
         />
-        {error && <p className="text-red-600 mb-2">{error}</p>}
 
         <div className="flex justify-between">
           <button
