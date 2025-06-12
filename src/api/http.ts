@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../store";
-import { isTokenExpired } from "../utils/token";
+import { isTokenExpired } from "../utils/jwt";
 import { removeToken, setToken } from "../store/auth.slice";
 import { refreshToken } from "./refreshToken";
 

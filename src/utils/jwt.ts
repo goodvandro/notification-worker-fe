@@ -1,7 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 
-interface JwtPayload {
+export interface JwtPayload {
   exp: number;
+  id: string;
+  username: string;
 }
 
 export function isTokenExpired(token: string): boolean {
@@ -14,4 +16,8 @@ export function isTokenExpired(token: string): boolean {
   } catch {
     return true; // invalid or expired token
   }
+}
+
+export function decodeToken(token: string): JwtPayload {
+  return jwtDecode<JwtPayload>(token);
 }
